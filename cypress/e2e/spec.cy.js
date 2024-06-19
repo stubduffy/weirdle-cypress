@@ -9,10 +9,6 @@ describe('weirdle', () => {
 
     cy.location('hostname').should('eq', 'stubduffy.github.io')
 
-    // cy.findByText('Weirdle').then(() => {
-    //   debugger
-    // })
-
     cy.fixture('guesses').each(($guess) => {
       makeGuess($guess)
     })
@@ -24,11 +20,6 @@ describe('weirdle', () => {
         })
       })
     }
-
-    cy.get('td').not(":contains('Guess')").each(($el) => {
-      console.log($el.text)
-      cy.wrap($el).should('have.attr', 'id')
-    })
 
     cy.get('#remarks').contains('Sorry')
 
@@ -45,8 +36,6 @@ describe('weirdle', () => {
     }))
     cy.intercept('**/weirdle.js', 
       (req) => {    
-       // send the request to the destination server
-       // and intercept the response
        req.continue((res) => {
          res.body = res.body.replace(/initial_words = \[\"[^\]]*\]/g, "initial_words = \[\"geeks\", \"tooth\", \"gates\", \"dread\", \"puppy\", \"limes\", \"beard\"]")
          return res
@@ -71,11 +60,6 @@ describe('weirdle', () => {
         })
       })
     }
-
-    cy.get('td').not(":contains('Guess')").each(($el) => {
-      console.log($el.text)
-      cy.wrap($el).should('have.attr', 'id')
-    })
 
     cy.get('#remarks').contains('Hooray')
 
